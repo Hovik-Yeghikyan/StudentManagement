@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+Lessons page | <a href="/lessons/add">Add Lesson</a>
+<table border="1">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>title</th>
+        <th>duration</th>
+        <th>price</th>
+        <th>start date</th>
+        <th>teacher</th>
+        <th>Update</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="lesson:${lessons}">
+        <td th:text="${lesson.id}"></td>
+        <td th:text="${lesson.title}"></td>
+        <td th:text="${lesson.duration}"></td>
+        <td th:text="${lesson.price}"></td>
+        <td th:text="${lesson.startDate}"></td>
+
+        <td>
+            <ul>
+                <li th:each="user: ${lesson.teacherId}" th:if="${user.userType==user.userType.TEACHER}"
+                    th:text="${user.name}"></li>
+            </ul>
+        </td>
+
+        <td><a th:href="@{'/lessons/delete/' + ${lesson.id}}">Delete</a></td>
+        <td><a th:href="@{'/lessons/update/' + ${lesson.id}}">Update</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
