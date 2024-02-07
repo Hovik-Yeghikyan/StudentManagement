@@ -93,8 +93,15 @@ public class UserController {
             multipartFile.transferTo(file);
             user.setPicName(picName);
         }
-        userRepository.save(user);
-        return "redirect:/students";
+
+        Optional<User> byEmail = userRepository.findByEmail(user.getEmail());
+        if (byEmail.isEmpty()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+            return "redirect:/students/add?msg=User Registered";
+        } else {
+            return "redirect:/students/add?msg=Email already in use";
+        }
     }
 
 
