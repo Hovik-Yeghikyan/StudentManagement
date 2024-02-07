@@ -6,7 +6,7 @@
 </head>
 <body>
 <span th:if="${msg!=null}" style="color: red" th:text="${msg}">  </span>
-<form method="post" action="/user/register">
+<form method="post" action="/user/register" enctype="multipart/form-data">
     Name: <input type="text" name="name"> <br>
     surname: <input type="text" name="surname"> <br>
     email: <input type="text" name="email"> <br>
@@ -15,7 +15,7 @@
     <option value="STUDENT">STUDENT</option>
     <option value="TEACHER">TEACHER</option>
 </select> <br>
-
+    <input type="file" name="picture">
     <input type="submit" value="Register">
 </form>
 </body>

@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+ <th:block th:include="/fragment/headerFragment::userInfo" />
 Update Lesson <br>
 <form method="post" action="/lessons/update">
     <input type="hidden" th:value="${lesson.id}" name="id">

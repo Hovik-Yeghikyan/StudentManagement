@@ -5,7 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-Teachers page | <a href="/teachers/add">Add Teacher</a>
+ <th:block th:include="/fragment/headerFragment::userInfo" />
+Teachers page
 <table border="1">
     <thead>
     <tr>
@@ -30,6 +31,8 @@ Teachers page | <a href="/teachers/add">Add Teacher</a>
         <td  th:text="${user.surname}"></td>
         <td  th:text="${user.email}"></td>
         <td  th:text="${user.userType}"></td>
+        <td th:if="${user.lesson != null}"  th:text="${user.lesson.title}"></td>
+        <td th:if="${user.lesson == null}"  th:text="none"></td>
         <td> <a th:href="@{'/teachers/update/' + ${user.id}}">Update</a></td>
         <td> <a th:href="@{'/teachers/delete/' + ${user.id}}">Delete</a></td>
     </tr>

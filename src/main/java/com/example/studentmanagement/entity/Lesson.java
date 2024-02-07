@@ -23,6 +23,6 @@ public class Lesson {
     @OneToMany(mappedBy = "lesson")
     private List<User> teacherId;
 //    @ManyToOne
-//    private User user;
+//    private User teacherId;
 
 }

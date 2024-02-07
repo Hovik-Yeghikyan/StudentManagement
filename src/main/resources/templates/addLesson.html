@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+ <th:block th:include="/fragment/headerFragment::userInfo" />
 Add Lesson <br>
 <form method="post" action="/lessons/add">
     title: <input type="text" name="title"> <br>

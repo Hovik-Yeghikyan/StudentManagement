@@ -24,8 +24,11 @@ public class SecurityConfig {
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/user/register").permitAll()
                 .requestMatchers("/lessons/add").hasAnyAuthority(UserType.TEACHER.name())
+                .requestMatchers("/students/add").hasAnyAuthority(UserType.TEACHER.name())
                 .requestMatchers("/lessons").hasAnyAuthority(UserType.TEACHER.name(),
                         UserType.STUDENT.name())
+                .requestMatchers("/teachers").hasAnyAuthority(UserType.TEACHER.name())
+                .requestMatchers("/students").hasAnyAuthority(UserType.TEACHER.name(),UserType.STUDENT.name())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

@@ -42,7 +42,14 @@ public class UserController {
     }
 
     @PostMapping("/user/register")
-    public String userRegister(@ModelAttribute User user) {
+    public String userRegister(@ModelAttribute User user, @RequestParam("picture") MultipartFile multipartFile) throws IOException {
+        if (multipartFile != null && !multipartFile.isEmpty()) {
+            String picName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
+            File file = new File(uploadDirectory, picName);
+            multipartFile.transferTo(file);
+            user.setPicName(picName);
+        }
+
         Optional<User> byEmail = userRepository.findByEmail(user.getEmail());
         if (byEmail.isEmpty()) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -91,26 +98,26 @@ public class UserController {
     }
 
 
-    @GetMapping("/teachers/add")
-    public String addTeachersPage(ModelMap modelMap) {
-        modelMap.addAttribute("users", userRepository.findAllByUserType(UserType.STUDENT));
-        List<Lesson> lessons = lessonRepository.findAll();
-        modelMap.put("lessons",lessons);
-        return "addTeacher";
-    }
-
-    @PostMapping("/teachers/add")
-    public String addTeacher(@ModelAttribute User user,
-                             @RequestParam("picture") MultipartFile multipartFile) throws IOException {
-        if (multipartFile != null && !multipartFile.isEmpty()) {
-            String picName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
-            File file = new File(uploadDirectory, picName);
-            multipartFile.transferTo(file);
-            user.setPicName(picName);
-        }
-        userRepository.save(user);
-        return "redirect:/teachers";
-    }
+//    @GetMapping("/teachers/add")
+//    public String addTeachersPage(ModelMap modelMap) {
+//        modelMap.addAttribute("users", userRepository.findAllByUserType(UserType.STUDENT));
+//        List<Lesson> lessons = lessonRepository.findAll();
+//        modelMap.put("lessons",lessons);
+//        return "addTeacher";
+//    }
+//
+//    @PostMapping("/teachers/add")
+//    public String addTeacher(@ModelAttribute User user,
+//                             @RequestParam("picture") MultipartFile multipartFile) throws IOException {
+//        if (multipartFile != null && !multipartFile.isEmpty()) {
+//            String picName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
+//            File file = new File(uploadDirectory, picName);
+//            multipartFile.transferTo(file);
+//            user.setPicName(picName);
+//        }
+//        userRepository.save(user);
+//        return "redirect:/teachers";
+//    }
 
 
     @PostMapping("/students/update")
@@ -133,7 +140,7 @@ public class UserController {
     public String updateStudentPage(@PathVariable("id") int id, ModelMap modelMap) {
         Optional<User> byId = userRepository.findById(id);
         if (byId.isPresent()) {
-            modelMap.addAttribute("lessons", userRepository.findAll());
+            modelMap.addAttribute("lessons", lessonRepository.findAll());
             modelMap.addAttribute("user", byId.get());
         } else {
             return "redirect:/students";

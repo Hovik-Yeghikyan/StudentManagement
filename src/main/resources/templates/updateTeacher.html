@@ -5,13 +5,14 @@
     <title>Update</title>
 </head>
 <body>
+<th:block th:include="/fragment/headerFragment::userInfo" />
 Update Teacher <br>
 <form method="post" action="/teachers/update" enctype="multipart/form-data">
     <input type="hidden" th:value="${user.id}" name="id">
     Name: <input type="text" name="name" th:value="${user.name}"> <br>
     surname: <input type="text" name="surname" th:value="${user.surname}"> <br>
     email: <input type="text" name="email" th:value="${user.email}"> <br>
-    password: <input type="password" name="password" th:value="${user.password}"> <br>
+    <input type="hidden" th:value="${user.password}" name="password">
     <input type="hidden" th:value="${user.userType}" name="userType">
     Lesson: <select name="lesson.id">
     <option th:each="lesson:${lessons}" th:text="${lesson.title}" th:value="${lesson.id}"></option>
