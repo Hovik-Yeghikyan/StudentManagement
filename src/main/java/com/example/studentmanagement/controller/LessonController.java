@@ -46,7 +46,7 @@ public class LessonController {
     @GetMapping("/lessons/update/{id}")
     public String updateLessonPage(@PathVariable("id") int id, ModelMap modelMap) {
         Optional<Lesson> byId = lessonRepository.findById(id);
-            modelMap.addAttribute("lesson", byId.get());
+        modelMap.addAttribute("lesson", byId.get());
         return "/updateLesson";
     }
     @PostMapping("/lessons/update")
@@ -62,6 +62,3 @@ public class LessonController {
 
 
 }
-
-
-

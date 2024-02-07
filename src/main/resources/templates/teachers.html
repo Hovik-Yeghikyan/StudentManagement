@@ -21,7 +21,7 @@ Teachers page | <a href="/teachers/add">Add Teacher</a>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user:${users}" th:if="${user.userType==user.userType.TEACHER}" >
+    <tr th:each="user:${users}" >
         <td  th:text="${user.id}"></td>
         <td>
             <img th:if="${user.getPicName() != null}" th:src="@{/getImage(picName=${user.picName})}" width="40" />
@@ -30,7 +30,6 @@ Teachers page | <a href="/teachers/add">Add Teacher</a>
         <td  th:text="${user.surname}"></td>
         <td  th:text="${user.email}"></td>
         <td  th:text="${user.userType}"></td>
-        <td  th:text="${user.lesson.title}"></td>
         <td> <a th:href="@{'/teachers/update/' + ${user.id}}">Update</a></td>
         <td> <a th:href="@{'/teachers/delete/' + ${user.id}}">Delete</a></td>
     </tr>

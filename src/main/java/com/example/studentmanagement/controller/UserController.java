@@ -7,6 +7,7 @@ import com.example.studentmanagement.repository.LessonRepository;
 import com.example.studentmanagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +25,33 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private LessonRepository lessonRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Value("${picture.upload.directory}")
     private String uploadDirectory;
+
+
+
+    @GetMapping("/user/register")
+    public String userRegister(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
+        if (msg != null && !msg.isEmpty()) {
+            modelMap.addAttribute("msg", msg);
+        }
+        return "register";
+    }
+
+    @PostMapping("/user/register")
+    public String userRegister(@ModelAttribute User user) {
+        Optional<User> byEmail = userRepository.findByEmail(user.getEmail());
+        if (byEmail.isEmpty()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+            return "redirect:/user/register?msg=User Registered";
+        } else {
+            return "redirect:/user/register?msg=Email already in use";
+        }
+    }
 
     @GetMapping("/students")
     public String userPage(ModelMap modelMap) {
@@ -54,7 +79,7 @@ public class UserController {
 
     @PostMapping("/students/add")
     public String addStudent(@ModelAttribute User user,
-                               @RequestParam("picture") MultipartFile multipartFile) throws IOException {
+                             @RequestParam("picture") MultipartFile multipartFile) throws IOException {
         if (multipartFile != null && !multipartFile.isEmpty()) {
             String picName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
             File file = new File(uploadDirectory, picName);
@@ -76,7 +101,7 @@ public class UserController {
 
     @PostMapping("/teachers/add")
     public String addTeacher(@ModelAttribute User user,
-                              @RequestParam("picture") MultipartFile multipartFile) throws IOException {
+                             @RequestParam("picture") MultipartFile multipartFile) throws IOException {
         if (multipartFile != null && !multipartFile.isEmpty()) {
             String picName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
             File file = new File(uploadDirectory, picName);
@@ -90,7 +115,7 @@ public class UserController {
 
     @PostMapping("/students/update")
     public String updateStudent(@ModelAttribute User user,
-                                  @RequestParam("picture") MultipartFile multipartFile) throws IOException {
+                                @RequestParam("picture") MultipartFile multipartFile) throws IOException {
         if (multipartFile != null && !multipartFile.isEmpty()) {
             String picName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
             File file = new File(uploadDirectory, picName);

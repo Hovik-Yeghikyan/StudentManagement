@@ -1,5 +1,6 @@
 package com.example.studentmanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,8 +17,12 @@ public class Lesson {
     private String title;
     private double duration;
     private double price;
+    @JsonFormat(pattern = "yyyy-MM-DD", shape = JsonFormat.Shape.STRING)
     private String startDate;
+
     @OneToMany(mappedBy = "lesson")
     private List<User> teacherId;
+//    @ManyToOne
+//    private User user;
 
 }
