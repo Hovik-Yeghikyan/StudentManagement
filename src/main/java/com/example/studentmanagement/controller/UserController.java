@@ -5,8 +5,10 @@ import com.example.studentmanagement.entity.User;
 import com.example.studentmanagement.entity.UserType;
 import com.example.studentmanagement.repository.LessonRepository;
 import com.example.studentmanagement.repository.UserRepository;
+import com.example.studentmanagement.security.SpringUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -32,9 +34,9 @@ public class UserController {
     private String uploadDirectory;
 
 
-
     @GetMapping("/user/register")
-    public String userRegister(@RequestParam(value = "msg", required = false) String msg, ModelMap modelMap) {
+    public String userRegister(@RequestParam(value = "msg", required = false) String msg,
+                               ModelMap modelMap) {
         if (msg != null && !msg.isEmpty()) {
             modelMap.addAttribute("msg", msg);
         }
@@ -49,7 +51,6 @@ public class UserController {
             multipartFile.transferTo(file);
             user.setPicName(picName);
         }
-
         Optional<User> byEmail = userRepository.findByEmail(user.getEmail());
         if (byEmail.isEmpty()) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -59,6 +60,24 @@ public class UserController {
             return "redirect:/user/register?msg=Email already in use";
         }
     }
+
+    @GetMapping("/loginPage")
+    public String loginPage(@AuthenticationPrincipal SpringUser springUser) {
+        if (springUser == null) {
+            return "loginPage";
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/loginSuccess")
+    public String loginSuccsess(@AuthenticationPrincipal SpringUser springUser) {
+        User user = springUser.getUser();
+        if (user!=null){
+            return "/loginSuccess";
+        }
+        return "/";
+    }
+
 
     @GetMapping("/students")
     public String userPage(ModelMap modelMap) {
@@ -79,7 +98,7 @@ public class UserController {
     public String addStudentPage(ModelMap modelMap) {
         modelMap.addAttribute("users", userRepository.findAllByUserType(UserType.STUDENT));
         List<Lesson> lessons = lessonRepository.findAll();
-        modelMap.put("lessons",lessons);
+        modelMap.put("lessons", lessons);
         return "addStudent";
     }
 
@@ -135,7 +154,7 @@ public class UserController {
             File file = new File(uploadDirectory, picName);
             multipartFile.transferTo(file);
             user.setPicName(picName);
-        }else {
+        } else {
             Optional<User> fromDB = userRepository.findById(user.getId());
             user.setPicName(fromDB.get().getPicName());
         }
@@ -190,7 +209,7 @@ public class UserController {
             File file = new File(uploadDirectory, picName);
             multipartFile.transferTo(file);
             user.setPicName(picName);
-        }else {
+        } else {
             Optional<User> fromDB = userRepository.findById(user.getId());
             user.setPicName(fromDB.get().getPicName());
         }

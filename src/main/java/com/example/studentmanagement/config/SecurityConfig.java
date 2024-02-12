@@ -22,6 +22,7 @@ public class SecurityConfig {
         httpSecurity.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/").permitAll()
+                .requestMatchers("/loginPage").permitAll()
                 .requestMatchers("/user/register").permitAll()
                 .requestMatchers("/lessons/add").hasAnyAuthority(UserType.TEACHER.name())
                 .requestMatchers("/students/add").hasAnyAuthority(UserType.TEACHER.name())
@@ -32,6 +33,10 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
+                .loginPage("/loginPage")
+                .loginProcessingUrl("/login")
+//                .successForwardUrl("/loginSuccess")
+                .defaultSuccessUrl("/loginSuccess",true)
                 .and()
                 .logout()
                 .logoutSuccessUrl("/");

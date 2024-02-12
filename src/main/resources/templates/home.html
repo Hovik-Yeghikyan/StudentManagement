@@ -7,7 +7,8 @@
 </head>
 <body>
 <th:block th:include="/fragment/headerFragment::userInfo"/>
-<a href="/lessons">Lessons</a> | <a href="/students">Students</a>| <a href="/teachers">Teachers</a>
+<a th:if="${currentUser!=null}" href="/lessons">Lessons</a> | <a th:if="${currentUser!=null}" href="/students">Students</a>| <a th:if="${currentUser!=null}" href="/teachers">Teachers</a>
 | <a th:if="${currentUser==null}" href="/user/register">Registration</a>
+<a th:if="${currentUser==null}" href="/loginPage">Login</a>
 </body>
 </html>
