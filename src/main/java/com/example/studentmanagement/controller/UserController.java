@@ -5,6 +5,7 @@ import com.example.studentmanagement.entity.User;
 import com.example.studentmanagement.entity.UserType;
 import com.example.studentmanagement.repository.LessonRepository;
 import com.example.studentmanagement.security.SpringUser;
+import com.example.studentmanagement.service.LessonService;
 import com.example.studentmanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,7 +25,7 @@ public class UserController {
 
 
     private final UserService userService;
-    private final LessonRepository lessonRepository;
+    private final LessonService lessonService;
     private final PasswordEncoder passwordEncoder;
 
 
@@ -88,7 +89,7 @@ public class UserController {
     @GetMapping("/students/add")
     public String addStudentPage(ModelMap modelMap) {
         modelMap.addAttribute("users", userService.findAllByUserType(UserType.STUDENT));
-        List<Lesson> lessons = lessonRepository.findAll();
+        List<Lesson> lessons = lessonService.findAll();
         modelMap.put("lessons", lessons);
         return "addStudent";
     }
@@ -120,7 +121,7 @@ public class UserController {
     public String updateStudentPage(@PathVariable("id") int id, ModelMap modelMap) {
         Optional<User> byId = userService.findById(id);
         if (byId.isPresent()) {
-            modelMap.addAttribute("lessons", lessonRepository.findAll());
+            modelMap.addAttribute("lessons", lessonService.findAll());
             modelMap.addAttribute("user", byId.get());
         } else {
             return "redirect:/students";
@@ -166,7 +167,7 @@ public class UserController {
     public String updateTeacherPage(@PathVariable("id") int id, ModelMap modelMap) {
         Optional<User> byId = userService.findById(id);
         if (byId.isPresent()) {
-            modelMap.addAttribute("lessons", lessonRepository.findAll());
+            modelMap.addAttribute("lessons", lessonService.findAll());
             modelMap.addAttribute("user", byId.get());
         } else {
             return "redirect:/teachers";
