@@ -2,6 +2,7 @@ package com.example.studentmanagement.config;
 
 import com.example.studentmanagement.entity.UserType;
 import com.example.studentmanagement.security.UserDetailService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,11 +13,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private UserDetailService userDetailsService;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private final UserDetailService userDetailsService;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
@@ -35,7 +37,6 @@ public class SecurityConfig {
                 .formLogin()
                 .loginPage("/loginPage")
                 .loginProcessingUrl("/login")
-//                .successForwardUrl("/loginSuccess")
                 .defaultSuccessUrl("/loginSuccess",true)
                 .and()
                 .logout()

@@ -2,6 +2,8 @@ package com.example.studentmanagement.controller;
 
 import com.example.studentmanagement.entity.Lesson;
 import com.example.studentmanagement.repository.LessonRepository;
+import com.example.studentmanagement.service.LessonService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,14 +16,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequiredArgsConstructor
 public class LessonController {
 
-    @Autowired
-    private LessonRepository lessonRepository;
+
+    private final LessonService lessonService;
 
     @GetMapping("/lessons")
     public String lessonPage(ModelMap modelMap) {
-        List<Lesson> lessons = lessonRepository.findAll();
+        List<Lesson> lessons = lessonService.findAll();
         modelMap.put("lessons", lessons);
         return "lessons";
     }
@@ -33,26 +36,26 @@ public class LessonController {
 
     @PostMapping("/lessons/add")
     public String addLesson(@ModelAttribute Lesson lesson) {
-        lessonRepository.save(lesson);
+        lessonService.save(lesson);
         return "redirect:/lessons";
     }
 
     @GetMapping("/lessons/delete/{id}")
     public String deleteLesson(@PathVariable("id") int id) {
-        lessonRepository.deleteById(id);
+        lessonService.deleteById(id);
         return "redirect:/lessons";
     }
 
     @GetMapping("/lessons/update/{id}")
     public String updateLessonPage(@PathVariable("id") int id, ModelMap modelMap) {
-        Optional<Lesson> byId = lessonRepository.findById(id);
+        Optional<Lesson> byId = lessonService.findById(id);
         modelMap.addAttribute("lesson", byId.get());
         return "/updateLesson";
     }
     @PostMapping("/lessons/update")
     public String updateLesson(@ModelAttribute Lesson lesson){
-        lessonRepository.findById(lesson.getId());
-        lessonRepository.save(lesson);
+        lessonService.findById(lesson.getId());
+        lessonService.save(lesson);
         return "redirect:/lessons";
     }
 
