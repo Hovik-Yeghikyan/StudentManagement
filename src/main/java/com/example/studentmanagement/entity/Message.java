@@ -4,23 +4,18 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
-
 @Entity
-@Table(name = "lesson")
+@Table(name = "message")
 @Data
-public class Lesson {
+public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String title;
-    private double duration;
-    private double price;
+    private String message;
+    private int fromId;
+    @ManyToOne
+    private User toId;
     @JsonFormat(pattern = "yyyy-MM-DD", shape = JsonFormat.Shape.STRING)
-    private String startDate;
-
-    @OneToMany(mappedBy = "lesson")
-    private List<User> teacherId;
-
+    private String dateTime;
 }

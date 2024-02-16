@@ -5,8 +5,9 @@
     <title>Title</title>
 </head>
 <body>
- <th:block th:include="/fragment/headerFragment::userInfo" />
- Students page | <a href="/students/add">Add Student</a>
+<th:block th:include="/fragment/headerFragment::userInfo"/>
+Students page | <a th:if="${currentUser.userType.name()=='STUDENT'}" href="/message">Send Message</a>
+                <a th:if="${currentUser.userType.name()=='TEACHER'}" href="/students/add">Add student</a>
 <table border="1">
     <thead>
     <tr>
@@ -22,19 +23,19 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="user:${users}"  >
-        <td  th:text="${user.id}"></td>
+    <tr th:each="user:${users}">
+        <td th:text="${user.id}"></td>
         <td>
-            <img th:if="${user.getPicName() != null}" th:src="@{/getImage(picName=${user.picName})}" width="40" />
+            <img th:if="${user.getPicName() != null}" th:src="@{/getImage(picName=${user.picName})}" width="40"/>
         </td>
-        <td  th:text="${user.name}"></td>
-        <td  th:text="${user.surname}"></td>
-        <td  th:text="${user.email}"></td>
-        <td  th:text="${user.userType}"></td>
-        <td th:if="${user.lesson != null}"  th:text="${user.lesson.title}"></td>
-        <td th:if="${user.lesson == null}"  th:text="none"></td>
-        <td> <a th:href="@{'/students/update/' + ${user.id}}">Update</a></td>
-        <td> <a th:href="@{'/students/delete/' + ${user.id}}">Delete</a></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.surname}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.userType}"></td>
+        <td th:if="${user.lesson != null}" th:text="${user.lesson.title}"></td>
+        <td th:if="${user.lesson == null}" th:text="none"></td>
+        <td><a th:href="@{'/students/update/' + ${user.id}}">Update</a></td>
+        <td><a th:href="@{'/students/delete/' + ${user.id}}">Delete</a></td>
     </tr>
     </tbody>
 </table>

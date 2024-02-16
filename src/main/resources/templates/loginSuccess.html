@@ -6,7 +6,6 @@
 </head>
 <body>
 Hello <span th:text="${currentUser.name} + ' ' + ${currentUser.userType}"></span>
-<a th:if="${currentUser.userType==currentUser.userType.TEACHER}"   href="/">Go to my menu</a>
-<a th:if="${currentUser.userType==currentUser.userType.STUDENT}"   href="/studentMenu">Go to my menu</a>
+<a href="/">Go to my menu</a>
 </body>
 </html>

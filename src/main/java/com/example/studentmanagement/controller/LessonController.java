@@ -29,6 +29,13 @@ public class LessonController {
         return "lessons";
     }
 
+    @GetMapping("/studentLessons")
+    public String studentLessonPage(ModelMap modelMap) {
+        List<Lesson> lessons = lessonService.findAll();
+        modelMap.put("lessons", lessons);
+        return "studentLessons";
+    }
+
     @GetMapping("/lessons/add")
     public String addLessonPage() {
         return "addLesson";

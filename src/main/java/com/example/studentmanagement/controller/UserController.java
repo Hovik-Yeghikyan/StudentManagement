@@ -3,7 +3,6 @@ package com.example.studentmanagement.controller;
 import com.example.studentmanagement.entity.Lesson;
 import com.example.studentmanagement.entity.User;
 import com.example.studentmanagement.entity.UserType;
-import com.example.studentmanagement.repository.LessonRepository;
 import com.example.studentmanagement.security.SpringUser;
 import com.example.studentmanagement.service.LessonService;
 import com.example.studentmanagement.service.UserService;
@@ -67,15 +66,6 @@ public class UserController {
         return "/";
     }
 
-    @GetMapping("/studentMenu")
-    public String studentLessonPage(@AuthenticationPrincipal SpringUser springUser) {
-        User user = springUser.getUser();
-        if (user.getUserType() == UserType.STUDENT) {
-            return "studentMenu";
-        }
-        return "redirect:/";
-    }
-
 
     @GetMapping("/students")
     public String userPage(ModelMap modelMap) {
@@ -100,6 +90,7 @@ public class UserController {
                              @RequestParam("picture") MultipartFile multipartFile) throws IOException {
         Optional<User> byEmail = userService.findByEmail(user.getEmail());
         if (byEmail.isEmpty()) {
+            user.setUserType(UserType.STUDENT);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userService.save(user, multipartFile);
             return "redirect:/students/add?msg=User Registered";
@@ -112,8 +103,7 @@ public class UserController {
     @PostMapping("/students/update")
     public String updateStudent(@ModelAttribute User user,
                                 @RequestParam("picture") MultipartFile multipartFile) throws IOException {
-
-        userService.save(user, multipartFile);
+        userService.update(user, multipartFile);
         return "redirect:/students";
     }
 
@@ -138,7 +128,6 @@ public class UserController {
             userService.deleteImage(id);
             return "redirect:/students/update/" + id;
         }
-
     }
 
 
@@ -179,7 +168,7 @@ public class UserController {
     public String deleteTeacherImage(@RequestParam("id") int id) {
         Optional<User> byId = userService.findById(id);
         if (byId.isEmpty()) {
-            return "redirect:/employees";
+            return "redirect:/teachers";
         } else {
             userService.deleteImage(id);
             return "redirect:/teachers/update/" + id;
@@ -192,5 +181,4 @@ public class UserController {
         userService.deleteById(id);
         return "redirect:/teachers";
     }
-
 }

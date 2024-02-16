@@ -6,7 +6,7 @@
 </head>
 <body>
  <th:block th:include="/fragment/headerFragment::userInfo" />
-Lessons page | <a href="/lessons/add">Add Lesson</a>
+Lessons page
 <table border="1">
     <thead>
     <tr>
@@ -15,7 +15,7 @@ Lessons page | <a href="/lessons/add">Add Lesson</a>
         <th>duration</th>
         <th>price</th>
         <th>start date</th>
-        <th>teacher</th>
+        <th>student</th>
         <th>Update</th>
         <th>Delete</th>
     </tr>
@@ -28,9 +28,11 @@ Lessons page | <a href="/lessons/add">Add Lesson</a>
         <td th:text="${lesson.price}"></td>
         <td th:text="${lesson.startDate}"></td>
 
+
+
         <td>
             <ul>
-                <li th:each="user: ${lesson.teacherId}" th:if="${user.userType.name()=='TEACHER'}"
+                <li th:each="user: ${lesson.teacherId}" th:if="${user.userType.name()=='STUDENT'}"
                     th:text="${user.name}"></li>
             </ul>
         </td>
@@ -42,3 +44,4 @@ Lessons page | <a href="/lessons/add">Add Lesson</a>
 </table>
 </body>
 </html>
+
