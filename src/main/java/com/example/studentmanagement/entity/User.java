@@ -3,6 +3,8 @@ package com.example.studentmanagement.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name = "user")
 @Data
@@ -21,4 +23,9 @@ public class User {
     private Lesson lesson;
     @Enumerated(EnumType.STRING)
     private UserType userType;
+    @ManyToMany
+    @JoinTable(name = "messenger",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "message_id"))
+    private List<Message> messages;
 }

@@ -6,7 +6,7 @@
 </head>
 <body>
 <th:block th:include="/fragment/headerFragment::userInfo"/>
-Students page | <a th:if="${currentUser.userType.name()=='STUDENT'}" href="/message">Send Message</a>
+Students page |
                 <a th:if="${currentUser.userType.name()=='TEACHER'}" href="/students/add">Add student</a>
 <table border="1">
     <thead>

@@ -16,8 +16,7 @@ Lessons page
         <th>price</th>
         <th>start date</th>
         <th>student</th>
-        <th>Update</th>
-        <th>Delete</th>
+        <th>message</th>
     </tr>
     </thead>
     <tbody>
@@ -33,12 +32,17 @@ Lessons page
         <td>
             <ul>
                 <li th:each="user: ${lesson.teacherId}" th:if="${user.userType.name()=='STUDENT'}"
-                    th:text="${user.name}"></li>
+                    th:text="${user.name}"> </li>
             </ul>
         </td>
 
-        <td><a th:href="@{'/lessons/delete/' + ${lesson.id}}">Delete</a></td>
-        <td><a th:href="@{'/lessons/update/' + ${lesson.id}}">Update</a></td>
+        <td>
+            <ul>
+                <li th:each="user: ${lesson.teacherId}" th:if="${user.userType.name()=='STUDENT'}">
+                    <a href="/message">Send Message</a> </li>
+            </ul>
+        </td>
+
     </tr>
     </tbody>
 </table>

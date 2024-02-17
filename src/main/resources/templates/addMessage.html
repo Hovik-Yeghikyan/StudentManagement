@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    Add message
+</head>
+<body>
+<form method="post" action="/message/add">
+    fromId: <input type="number" name="fromId"> <br>
+    text: <input type="text" name="message"> <br>
+    fromID: <input type="number" name="toID"> <br>
+
+    <input type="submit" value="send">
+</form>
+</body>
+</html>

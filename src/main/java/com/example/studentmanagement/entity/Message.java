@@ -14,8 +14,7 @@ public class Message {
     private int id;
     private String message;
     private int fromId;
-    @ManyToOne
-    private User toId;
-    @JsonFormat(pattern = "yyyy-MM-DD", shape = JsonFormat.Shape.STRING)
-    private String dateTime;
+
+    private int toId;
+
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+ <th:block th:include="/fragment/headerFragment::userInfo" />
+Messanger / <a href="/message/add">send message</a>
+<table border="1">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>message</th>
+        <th>fromId</th>
+        <th>toId</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="message:${messages}" >
+        <td  th:text="${message.id}"></td>
+        <td  th:text="${message.message}"></td>
+        <td  th:text="${message.fromId}"></td>
+        <td  th:text="${message.toId}"></td>
+
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

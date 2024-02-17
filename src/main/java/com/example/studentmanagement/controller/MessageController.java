@@ -7,6 +7,7 @@ import com.example.studentmanagement.entity.UserType;
 import com.example.studentmanagement.repository.MessageRepository;
 import com.example.studentmanagement.security.SpringUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,22 +21,20 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 public class MessageController {
+    @Autowired
 private MessageRepository messageRepository;
 
 
     @GetMapping("/message")
     public String userPage(@AuthenticationPrincipal SpringUser springUser, ModelMap modelMap) {
         User user = springUser.getUser();
-        Optional<Message> messages = messageRepository.findById(user.getId());
+        List<Message> messages = messageRepository.findAll();
         modelMap.put("messages", messages);
-        if (!messages.isEmpty()) {
-            return "message";
-        }else {
-            return "/message/add";
-        }
+     return "message";
     }
     @GetMapping("/message/add")
-    public String addLessonPage() {
+    public String addLessonPage(@ModelAttribute Message message) {
+        messageRepository.save(message);
         return "addMessage";
     }
 
