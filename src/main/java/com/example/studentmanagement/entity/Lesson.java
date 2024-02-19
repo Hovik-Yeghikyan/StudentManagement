@@ -3,7 +3,9 @@ package com.example.studentmanagement.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.sql.Date;
 import java.util.List;
 
 @Entity
@@ -17,7 +19,7 @@ public class Lesson {
     private String title;
     private double duration;
     private double price;
-    @JsonFormat(pattern = "yyyy-MM-DD", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private String startDate;
 
     @OneToMany(mappedBy = "lesson")
