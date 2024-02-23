@@ -23,9 +23,4 @@ public class User {
     private Lesson lesson;
     @Enumerated(EnumType.STRING)
     private UserType userType;
-    @ManyToMany
-    @JoinTable(name = "messenger",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "message_id"))
-    private List<Message> messages;
 }

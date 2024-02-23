@@ -39,7 +39,7 @@ Lessons page
         <td>
             <ul>
                 <li th:each="user: ${lesson.teacherId}" th:if="${user.userType.name()=='STUDENT'}">
-                    <a href="/message">Send Message</a> </li>
+                    <a href="/message">Message</a> </li>
             </ul>
         </td>
 

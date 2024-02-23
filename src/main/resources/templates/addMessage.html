@@ -7,10 +7,14 @@
     Add message
 </head>
 <body>
+<th:block th:include="/fragment/headerFragment::userInfo"/>
 <form method="post" action="/message/add">
-    fromId: <input type="number" name="fromId"> <br>
-    text: <input type="text" name="message"> <br>
-    fromID: <input type="number" name="toID"> <br>
+    <input type="hidden" th:value="${currentUser.id}" name="id">
+   message: <input type="text" name="message"> <br>
+   toID:   <div th:each="user, status: ${users}">
+    <span th:text="${user.name}"></span>
+    <input type="checkbox" th:name="users[__${status.index}__].id" th:value="${user.id}">
+</div>
 
     <input type="submit" value="send">
 </form>
