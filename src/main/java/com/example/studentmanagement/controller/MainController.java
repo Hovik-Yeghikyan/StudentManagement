@@ -16,7 +16,7 @@ import java.io.IOException;
 @Controller
 public class MainController {
 
-    @Value("${picture.upload.directory}")
+    @Value("${studentManagement.picture.upload.directory}")
     private String uploadDirectory;
 
 

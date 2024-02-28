@@ -22,7 +22,7 @@ public class Lesson {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private String startDate;
 
-    @OneToMany(mappedBy = "lesson")
+    @OneToMany(mappedBy = "lesson",fetch = FetchType.EAGER)
     private List<User> teacherId;
 
 }

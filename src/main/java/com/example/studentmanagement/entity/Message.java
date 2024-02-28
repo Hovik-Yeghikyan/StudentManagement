@@ -13,9 +13,9 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String message;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User fromId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User toId;
 
 }

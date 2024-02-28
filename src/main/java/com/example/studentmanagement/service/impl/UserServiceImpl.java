@@ -19,7 +19,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    @Value("${picture.upload.directory}")
+    private final SendMailService sendMailService;
+    @Value("${studentManagement.picture.upload.directory}")
     private String uploadDirectory;
 
 
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService {
             multipartFile.transferTo(file);
             user.setPicName(picName);
         }
+        sendMailService.sendSimpleMail(user.getEmail(),"Welcome","Welcome my friend " + user.getName());
         return userRepository.save(user);
     }
 

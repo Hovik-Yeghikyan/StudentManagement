@@ -7,6 +7,7 @@ import com.example.studentmanagement.security.SpringUser;
 import com.example.studentmanagement.service.LessonService;
 import com.example.studentmanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
 
@@ -43,8 +45,10 @@ public class UserController {
         if (byEmail.isEmpty()) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userService.save(user, multipartFile);
+            log.info("User {} registered ",user.getEmail());
             return "redirect:/user/register?msg=User Registered";
         } else {
+            log.info("User with {} email is already registered", user.getEmail() );
             return "redirect:/user/register?msg=Email already in use";
         }
     }
@@ -61,7 +65,9 @@ public class UserController {
     public String loginSuccsess(@AuthenticationPrincipal SpringUser springUser) {
         User user = springUser.getUser();
         if (user != null) {
+            log.info("User with {} email logged in",user.getEmail());
             return "/loginSuccess";
+
         }
         return "/";
     }
@@ -104,6 +110,7 @@ public class UserController {
     public String updateStudent(@ModelAttribute User user,
                                 @RequestParam("picture") MultipartFile multipartFile) throws IOException {
         userService.update(user, multipartFile);
+        log.info("User with {} email updated",user.getEmail());
         return "redirect:/students";
     }
 
@@ -149,6 +156,7 @@ public class UserController {
     public String updateTeacher(@ModelAttribute User user,
                                 @RequestParam("picture") MultipartFile multipartFile) throws IOException {
         userService.update(user, multipartFile);
+        log.info("User with {} email updated",user.getEmail());
         return "redirect:/teachers";
     }
 
@@ -181,4 +189,5 @@ public class UserController {
         userService.deleteById(id);
         return "redirect:/teachers";
     }
+
 }
